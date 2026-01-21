@@ -1,7 +1,3 @@
 export default function App() {
-  return (
-    <div className="p-6 text-xl font-bold">
-      Blog App Loaded ✅
-    </div>
-  )
+  return <h1>HELLO FROM APP</h1>
 }
