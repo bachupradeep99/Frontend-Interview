@@ -1,3 +1,7 @@
 export default function App() {
-  return <h1>HELLO FROM APP</h1>
+  return (
+    <div style={{ fontSize: "30px", color: "red" }}>
+      APP.TSX IS RENDERING
+    </div>
+  )
 }
