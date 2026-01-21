@@ -1,35 +1,38 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { Routes, Route, useParams } from 'react-router-dom';
+import { BlogList } from './components/BlogList';
+import { BlogDetail } from './components/BlogDetail';
+import { BlogForm } from './components/BlogForm';
+import { Button } from './components/ui/button';
+import { Link } from 'react-router-dom';
 
-function App() {
-  const [count, setCount] = useState(0)
-
-  return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+function BlogDetailPage() {
+  const { id } = useParams();
+  return <BlogDetail blogId={Number(id)} />;
 }
 
-export default App
+function App() {
+  return (
+    <div className="min-h-screen bg-background">
+      <header className="border-b sticky top-0 bg-background/95 backdrop-blur z-10">
+        <div className="container flex justify-between items-center py-4">
+          <Link to="/" className="text-2xl font-bold">
+            CA Monk Blog
+          </Link>
+          <Button asChild>
+            <Link to="/create">Write New Blog</Link>
+          </Button>
+        </div>
+      </header>
+
+      <main className="container py-8">
+        <Routes>
+          <Route path="/" element={<BlogList />} />
+          <Route path="/blog/:id" element={<BlogDetailPage />} />
+          <Route path="/create" element={<BlogForm />} />
+        </Routes>
+      </main>
+    </div>
+  );
+}
+
+export default App;
