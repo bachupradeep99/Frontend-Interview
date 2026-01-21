@@ -1,33 +1,34 @@
-import { Routes, Route, useParams } from 'react-router-dom';
+// src/App.tsx
+import { Routes, Route, useParams, Link } from 'react-router-dom';
 import { BlogList } from './components/BlogList';
 import { BlogDetail } from './components/BlogDetail';
 import { BlogForm } from './components/BlogForm';
 import { Button } from './components/ui/button';
-import { Link } from 'react-router-dom';
 
-function BlogDetailPage() {
-  const { id } = useParams();
-  return <BlogDetail blogId={Number(id)} />;
+function BlogDetailWrapper() {
+  const { id } = useParams<{ id: string }>();
+  const blogId = id ? Number(id) : undefined;
+  return blogId ? <BlogDetail blogId={blogId} /> : <div>Invalid blog ID</div>;
 }
 
 function App() {
   return (
-    <div className="min-h-screen bg-background">
-      <header className="border-b sticky top-0 bg-background/95 backdrop-blur z-10">
+    <div className="min-h-screen bg-background text-foreground">
+      <header className="border-b sticky top-0 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 z-10">
         <div className="container flex justify-between items-center py-4">
-          <Link to="/" className="text-2xl font-bold">
+          <Link to="/" className="text-2xl font-bold tracking-tight">
             CA Monk Blog
           </Link>
           <Button asChild>
-            <Link to="/create">Write New Blog</Link>
+            <Link to="/create">Create Blog</Link>
           </Button>
         </div>
       </header>
 
-      <main className="container py-8">
+      <main className="container py-8 pb-20">
         <Routes>
           <Route path="/" element={<BlogList />} />
-          <Route path="/blog/:id" element={<BlogDetailPage />} />
+          <Route path="/blog/:id" element={<BlogDetailWrapper />} />
           <Route path="/create" element={<BlogForm />} />
         </Routes>
       </main>
