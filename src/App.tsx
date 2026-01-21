@@ -1,39 +1,21 @@
-// src/App.tsx
-import { Routes, Route, useParams, Link } from 'react-router-dom';
-import { BlogList } from './components/BlogList';
-import { BlogDetail } from './components/BlogDetail';
-import { BlogForm } from './components/BlogForm';
-import { Button } from './components/ui/button';
+import { useState } from "react"
+import BlogList from "./components/BlogList"
+import BlogDetail from "./components/BlogDetail"
+import CreateBlogForm from "./components/CreateBlogForm"
 
-function BlogDetailWrapper() {
-  const { id } = useParams<{ id: string }>();
-  const blogId = id ? Number(id) : undefined;
-  return blogId ? <BlogDetail blogId={blogId} /> : <div>Invalid blog ID</div>;
-}
+export default function App() {
+  const [selectedId, setSelectedId] = useState<number | null>(null)
 
-function App() {
   return (
-    <div className="min-h-screen bg-background text-foreground">
-      <header className="border-b sticky top-0 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 z-10">
-        <div className="container flex justify-between items-center py-4">
-          <Link to="/" className="text-2xl font-bold tracking-tight">
-            CA Monk Blog
-          </Link>
-          <Button asChild>
-            <Link to="/create">Create Blog</Link>
-          </Button>
-        </div>
-      </header>
+    <div className="grid grid-cols-3 gap-6 p-6">
+      <div className="col-span-1 space-y-4">
+        <CreateBlogForm />
+        <BlogList onSelect={setSelectedId} />
+      </div>
 
-      <main className="container py-8 pb-20">
-        <Routes>
-          <Route path="/" element={<BlogList />} />
-          <Route path="/blog/:id" element={<BlogDetailWrapper />} />
-          <Route path="/create" element={<BlogForm />} />
-        </Routes>
-      </main>
+      <div className="col-span-2">
+        {selectedId && <BlogDetail id={selectedId} />}
+      </div>
     </div>
-  );
+  )
 }
-
-export default App;
